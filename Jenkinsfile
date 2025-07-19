@@ -9,6 +9,14 @@ pipeline {
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
         }
+
+        stage('SonarQube Scan') {
+            // the build server has the sonarqube CLI and configured sonarqube service
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                sh "mvn sonar:sonar -Dsonar.projectKey=${SONAR_PROJECT_KEY}"
+            }
+        }
     }
 
     post {
