@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        MAVEN_IMAGE = 'maven:3.8.8-openjdk-17'
+        MAVEN_IMAGE = 'maven:3.9.10-sapmachine-24'
     }
 
     stages {
