@@ -1,15 +1,11 @@
 pipeline {
     agent any
 
-    environment {
-        MAVEN_IMAGE = 'maven:3.9.10-sapmachine-24'
-    }
-
     stages {
         stage('Build') {
             agent {
                 docker {
-                    image "${MAVEN_IMAGE}"
+                    image 'maven:3.9.10-sapmachine-24'
                     args '-v /root/.m2:/root/.m2'
                 }
             }
