@@ -27,5 +27,8 @@ pipeline {
         always {
             echo 'Pipeline completed.'
         }
+        success {
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
     }
 }
