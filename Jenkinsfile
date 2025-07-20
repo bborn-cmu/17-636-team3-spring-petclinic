@@ -12,7 +12,12 @@ pipeline {
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
         }
-
+        stage('Build-Image') {
+            // The build server's agent has maven on it
+            steps {
+                sh './mvnw spring-boot:build-image'
+            }
+        }
         stage('SonarQube Scan') {
             // the build server has the sonarqube CLI and configured sonarqube service
             steps {
