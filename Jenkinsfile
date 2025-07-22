@@ -2,7 +2,7 @@ pipeline {
     agent any
     // for consistent caching of maven during subsequent builds on the same server
     environment {
-      JAVA_TOOL_OPTIONS = '-Duser.home=/root'
+      JAVA_TOOL_OPTIONS = '-Duser.home=/home/jenkins'
     }
     stages {
         stage('Build') {
