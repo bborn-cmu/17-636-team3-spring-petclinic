@@ -15,7 +15,9 @@ pipeline {
         stage('Build-Image') {
             // The build server's agent has maven on it
             steps {
-                sh './mvnw spring-boot:build-image'
+                // The "real" repo builds: 'docker.io/library/spring-petclinic:3.5.0-SNAPSHOT'
+                sh 'mvn spring-boot:build-image -Dmodule.image.name=docker.io/library/spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}'
+                //sh './mvnw spring-boot:build-image'
             }
         }
         stage('SonarQube Scan') {
