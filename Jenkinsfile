@@ -5,19 +5,19 @@ pipeline {
       JAVA_TOOL_OPTIONS = '-Duser.home=/home/jenkins'
     }
     stages {
-        stage('Build') {
+        stage('Build-Jar') {
             // The build server's agent has maven on it
             steps {
                 sh 'mvn clean package -DskipTests'
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
         }
-        // stage('Build-Image') {
-        //     // The build server's agent has maven on it
-        //     steps {
-        //         sh './mvnw spring-boot:build-image'
-        //     }
-        // }
+        stage('Build-Image') {
+            // The build server's agent has maven on it
+            steps {
+                sh './mvnw spring-boot:build-image'
+            }
+        }
         stage('SonarQube Scan') {
             // the build server has the sonarqube CLI and configured sonarqube service
             steps {
