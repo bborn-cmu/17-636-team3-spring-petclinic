@@ -16,7 +16,7 @@ pipeline {
             // The build server's agent has maven on it
             steps {
                 // The "real" repo builds: 'docker.io/library/spring-petclinic:3.5.0-SNAPSHOT'
-                sh 'mvn spring-boot:build-image -Dmodule.image.name=docker.io/library/spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}'
+                sh './mvnw spring-boot:build-image -Dmodule.image.name=ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}'
                 //sh './mvnw spring-boot:build-image'
             }
         }
@@ -28,6 +28,15 @@ pipeline {
                 }
             }
         }
+
+        // TODO: need to configure a registry and auth info
+        // stage('Push Image') {
+        //     steps {
+        //         docker.withRegistry('https://ghcr.io', 'your-credentials-id') {
+        //             docker.image('ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}').push()
+        //         }
+        //     }
+        // }
     }
 
     post {
