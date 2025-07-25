@@ -31,25 +31,6 @@ pipeline {
         stage('ZAP Scan') {
             steps {
                 script {
-                    // Start the container just built
-                    def appContainerId = sh(
-                        // script: "docker run -d -p 8080:8080 ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}",
-                        script: "docker run -d -p 9002:8080 docker.io/library/spring-petclinic:3.5.0-SNAPSHOT",
-                        returnStdout: true
-                    ).trim()
-                    // takes a few seconds for the website to render
-                    sleep 30
-
-                    // Run ZAP 
-                    // TODO: figure out the ZAP plugin to run its scan here on the running image (and use a custom network here vs hard coded ports)
-                    sh '''
-                    curl -klsS -vvv http://localhost:9002
-                    '''
-
-                    // Stop the app
-                    sh "docker stop ${appContainerId}"
-                }
-                script {
                     def appContainerName = "spring-pet-clinic-${env.BUILD_ID}"
                     def imageName = "docker.io/library/spring-petclinic:3.5.0-SNAPSHOT"
 
