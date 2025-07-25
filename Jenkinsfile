@@ -41,13 +41,30 @@ pipeline {
                     sleep 30
 
                     // Run ZAP 
-                    // TODO: figure out the ZAP plugin to do this
+                    // TODO: figure out the ZAP plugin to run its scan here on the running image (and use a custom network here vs hard coded ports)
                     sh '''
                     curl -klsS -vvv http://localhost:9002
                     '''
 
                     // Stop the app
                     sh "docker stop ${appContainerId}"
+                }
+                script {
+                    def appContainerName = "spring-pet-clinic-${env.BUILD_ID}"
+                    def imageName = "docker.io/library/spring-petclinic:3.5.0-SNAPSHOT"
+
+                    try {
+                        // The system has a network just for inter-container communication during pipelines
+                        sh "docker run -d --rm --name ${appContainerName} --network backend ${imageName}"
+
+                        // Run ZAP 
+                        // TODO: figure out the ZAP plugin to run its scan here on the running image (and use a custom network here vs hard coded ports)
+                        sh '''
+                            curl -klsS -vvv http://${appContainerName}:9002"
+                        '''
+                    } finally {
+                        sh "docker rm -f ${appContainerName} || true"
+                    }
                 }
             }
         }
