@@ -54,16 +54,15 @@ pipeline {
                     def imageName = "docker.io/library/spring-petclinic:3.5.0-SNAPSHOT"
 
                     try {
-                        // The system has a network just for inter-container communication during pipelines
-                        sh "docker run -d --rm --name ${appContainerName} --network backend ${imageName}"
+                        // The system has a network just for inter-container communication during pipelines called jenkins-ci
+                        sh "docker run -d --rm --name ${appContainerName} --network jenkins-ci ${imageName}"
 
-                        // Run ZAP 
-                        // TODO: figure out the ZAP plugin to run its scan here on the running image (and use a custom network here vs hard coded ports)
-                        sh '''
-                            curl -klsS -vvv http://${appContainerName}:9002"
-                        '''
+                        // Run ZAP, the build system has a custom zap client script to make this easier in the /bin dir
+                        sh "zap_client.sh http://${appContainerName}:8080"
+
+                        // TODO: need to publish the HTML reports
                     } finally {
-                        sh "docker rm -f ${appContainerName} || true"
+                        sh "docker rm -f ${appContainerName}"
                     }
                 }
             }
