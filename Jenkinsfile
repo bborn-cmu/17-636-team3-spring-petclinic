@@ -39,13 +39,21 @@ pipeline {
                         sh "docker run -d --rm --name ${appContainerName} --network jenkins-ci ${imageName}"
 
                         // Run ZAP, the build system has a custom zap client script to make this easier in the /bin dir
-                        sh "zap_client.sh http://${appContainerName}:8080"
+                        sh "python zap_client.py --target \"http://${appContainerName}:8080\" --build ${env.BUILD_ID}"
 
-                        // TODO: need to publish the HTML reports
+                        // TODO: need to publish the HTML reports and remove them from the agent
                     } finally {
                         sh "docker rm -f ${appContainerName}"
                     }
                 }
+                
+                archiveArtifacts artifacts: "/tmp/zap_report_build_${env.BUILD_ID}.html", fingerprint: true
+                publishHTML(target: [
+                    reportDir: 'zap-reports',
+                    reportFiles: "/tmp/zap_report_build_${env.BUILD_ID}.html",
+                    reportName: 'ZAP Scan Report'
+                ])
+            }
             }
         }
         // TODO: need to configure a registry and auth info
