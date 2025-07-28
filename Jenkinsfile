@@ -54,7 +54,6 @@ pipeline {
                     reportName: 'ZAP Scan Report'
                 ])
             }
-            }
         }
         // TODO: need to configure a registry and auth info
         // stage('Push Image') {
