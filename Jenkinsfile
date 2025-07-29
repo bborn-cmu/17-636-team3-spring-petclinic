@@ -32,8 +32,8 @@ pipeline {
             steps {
                 script {
                     def appContainerName = "spring-pet-clinic-${env.BUILD_ID}"
-                    def imageName = "ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
-
+                    def imageName = "docker.io/library/spring-petclinic:3.5.0-SNAPSHOT"
+                    //def imageName = "ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
                     try {
                         // The system has a network just for inter-container communication during pipelines called jenkins-ci
                         sh "docker run -d --rm --name ${appContainerName} --network jenkins-ci ${imageName}"
