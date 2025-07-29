@@ -16,8 +16,8 @@ pipeline {
             // The build server's agent has maven on it
             steps {
                 // The "real" repo builds: 'docker.io/library/spring-petclinic:3.5.0-SNAPSHOT'
-                // sh "./mvnw spring-boot:build-image -Dmodule.image.name=ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
-                sh './mvnw spring-boot:build-image'
+                sh "./mvnw spring-boot:build-image -DskipTests -Dmodule.image.name=ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
+                //sh './mvnw spring-boot:build-image -DskipTests'
             }
         }
         stage('SonarQube Scan') {
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     def appContainerName = "spring-pet-clinic-${env.BUILD_ID}"
-                    def imageName = "docker.io/library/spring-petclinic:3.5.0-SNAPSHOT"
+                    def imageName = "ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
 
                     try {
                         // The system has a network just for inter-container communication during pipelines called jenkins-ci
