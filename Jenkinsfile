@@ -39,7 +39,7 @@ pipeline {
                         sh "docker run -d --rm --name ${appContainerName} --network jenkins-ci ${imageName}"
 
                         // Run ZAP, the build system has a custom zap client script to make this easier in the /bin dir
-                        sh "python zap_client.py --target \"http://${appContainerName}:8080\" --build ${env.BUILD_ID}"
+                        sh "python /bin/zap_client.py --target \"http://${appContainerName}:8080\" --build ${env.BUILD_ID}"
 
                         // TODO: need to publish the HTML reports and remove them from the agent
                     } finally {
