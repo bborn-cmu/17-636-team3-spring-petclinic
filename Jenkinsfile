@@ -47,10 +47,10 @@ pipeline {
                     }
                 }
                 
-                archiveArtifacts artifacts: "/tmp/zap_report_build_${env.BUILD_ID}.html", fingerprint: true
+                archiveArtifacts artifacts: "zap_report_build_${env.BUILD_ID}.html", fingerprint: true
                 publishHTML(target: [
                     reportDir: 'zap-reports',
-                    reportFiles: "/tmp/zap_report_build_${env.BUILD_ID}.html",
+                    reportFiles: "zap_report_build_${env.BUILD_ID}.html",
                     reportName: 'ZAP Scan Report'
                 ])
             }
