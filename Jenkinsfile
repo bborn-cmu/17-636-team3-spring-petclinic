@@ -49,7 +49,6 @@ pipeline {
                 
                 archiveArtifacts artifacts: "zap_report_build_${env.BUILD_ID}.html", fingerprint: true
                 publishHTML(target: [
-                    reportDir: 'zap-reports',
                     reportFiles: "zap_report_build_${env.BUILD_ID}.html",
                     reportName: 'ZAP Scan Report'
                 ])
