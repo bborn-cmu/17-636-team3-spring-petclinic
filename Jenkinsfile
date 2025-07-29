@@ -37,7 +37,8 @@ pipeline {
                     try {
                         // The system has a network just for inter-container communication during pipelines called jenkins-ci
                         sh "docker run -d --rm --name ${appContainerName} --network jenkins-ci ${imageName}"
-
+                        // Website needs about 18 seconds to start
+                        sh "sleep 30"
                         // Run ZAP, the build system has a custom zap client script to make this easier in the /bin dir
                         sh "python /bin/zap_client.py --target \"http://${appContainerName}:8080\" --build ${env.BUILD_ID}"
 
