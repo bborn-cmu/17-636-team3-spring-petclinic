@@ -16,8 +16,8 @@ pipeline {
             // The build server's agent has maven on it
             steps {
                 // The "real" repo builds: 'docker.io/library/spring-petclinic:3.5.0-SNAPSHOT'
-                sh "./mvnw spring-boot:build-image -DskipTests -Dmodule.image.name=ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
-                //sh './mvnw spring-boot:build-image -DskipTests'
+                // sh "./mvnw spring-boot:build-image -DskipTests -Dmodule.image.name=ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}"
+                sh './mvnw spring-boot:build-image -DskipTests'
             }
         }
         stage('SonarQube Scan') {
@@ -56,14 +56,14 @@ pipeline {
                 ])
             }
         }
-        // TODO: need to configure a registry and auth info
-        // stage('Push Image') {
-        //     steps {
-        //         docker.withRegistry('https://ghcr.io', 'your-credentials-id') {
-        //             docker.image('ghcr.io/bborn-cmu/17-636-team3-spring-petclinic:3.5.0-SNAPSHOT-build-${env.BUILD_NUMBER}').push()
-        //         }
-        //     }
-        // }
+        stage('Deploy to VM (via Ansible)') {
+            steps {
+                echo "Deploying Spring Petclinic to VM..."
+                dir('/ansible') {
+                    sh 'ansible-playbook -i inventory.ini deploy.yml'
+                }
+            }
+        }
     }
 
     post {
