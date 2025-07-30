@@ -71,7 +71,11 @@ pipeline {
             echo 'Pipeline completed.'
         }
         success {
+            echo "Pipeline completed successfully!"
             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
+        failure {
+            echo "Pipeline failed."
         }
     }
 }
