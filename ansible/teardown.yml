@@ -1,0 +1,7 @@
+---
+- name: Teardown Spring Petclinic
+  hosts: prod
+  become: yes
+  tasks:
+    - name: Kill any running Petclinic process
+      shell: pkill -f spring-petclinic.war || true

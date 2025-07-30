@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy to VM (via Ansible)') {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
-                dir('/ansible/') {
+                dir('ansible') {
                     sh 'ansible-playbook -i inventory.ini deploy.yml'
                 }
             }
