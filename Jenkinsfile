@@ -11,21 +11,7 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
-        }
-        stage('debug Deploy to VM (via Ansible)') {
-            steps {
-                echo "Deploying Spring Petclinic to VM..."
-                unstash 'app-artifact'
-                sh 'mkdir -p ansible/files && cp target/*.jar ansible/files/'
-
-                dir('ansible') {
-                    sh 'pwd && ls -al'
-                    sh 'ls -al files'
-                    sh 'ansible-playbook -i inventory.ini deploy.yml --extra-vars "jar_file=spring-petclinic-3.5.0-SNAPSHOT.jar"'
-                }
-                
-            }
-        }
+        }           
         stage('Build-Image') {
             // The build server's agent has maven on it
             steps {
@@ -74,8 +60,13 @@ pipeline {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
                 unstash 'app-artifact'
-                sh 'ls -al'
-                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+                sh 'mkdir -p ansible/files && cp target/*.jar ansible/files/'
+
+                dir('ansible') {
+                    sh 'pwd && ls -al'
+                    sh 'ls -al files'
+                    sh 'ansible-playbook -i inventory.ini deploy.yml --extra-vars "jar_file=spring-petclinic-3.5.0-SNAPSHOT.jar"'
+                }
             }
         }
     }
