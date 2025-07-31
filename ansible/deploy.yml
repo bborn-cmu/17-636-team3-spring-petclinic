@@ -3,9 +3,9 @@
   hosts: prod
   become: yes
   tasks:
-    - name: Install Java 11
+    - name: Install Java 17
       apt:
-        name: openjdk-11-jdk
+        name: openjdk-17-jdk
         state: present
         update_cache: yes
 
