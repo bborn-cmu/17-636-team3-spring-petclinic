@@ -9,10 +9,15 @@
         state: present
         update_cache: yes
 
-    - name: Copy Petclinic war file
+    - name: Copy Petclinic JAR file
       copy:
-        src: ./spring-petclinic/target/spring-petclinic.war
-        dest: /opt/spring-petclinic.war
+        src: ../target/spring-petclinic-*.jar
+        dest: /opt/spring-petclinic.jar
+        remote_src: no
+
+    - name: Stop existing Spring Petclinic instance (if any)
+      shell: pkill -f 'java -jar /opt/spring-petclinic.jar'
+      ignore_errors: yes
 
     - name: Run Spring PetClinic
-      shell: nohup java -jar /opt/spring-petclinic.war > /opt/petclinic.log 2>&1 &
+      shell: nohup java -jar /opt/spring-petclinic.jar > /opt/petclinic.log 2>&1 &

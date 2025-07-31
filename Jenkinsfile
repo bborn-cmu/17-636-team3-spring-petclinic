@@ -10,7 +10,6 @@ pipeline {
             steps {
                 sh 'mvn clean package -DskipTests'
                 stash includes: 'target/*.jar', name: 'app-artifact'
-                stash includes: 'target/*.war', name: 'petclinic-artifact'
             }
         }
         stage('Build-Image') {
@@ -60,7 +59,7 @@ pipeline {
         stage('Deploy to VM (via Ansible)') {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
-                unstash 'petclinic-artifact'
+                unstash 'app-artifact'
 
                 dir('ansible') {
                     sh 'ansible-playbook -i inventory.ini deploy.yml'

@@ -4,4 +4,5 @@
   become: yes
   tasks:
     - name: Kill any running Petclinic process
-      shell: pkill -f spring-petclinic.war || true
+      shell: pkill -f 'java -jar /opt/spring-petclinic.jar'
+      ignore_errors: yes
