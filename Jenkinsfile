@@ -60,7 +60,7 @@ pipeline {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
                 unstash 'app-artifact'
-
+                sh 'mkdir -p ansible/files && cp target/*.jar ansible/files/'
                 dir('ansible') {
                     sh 'ansible-playbook -i inventory.ini deploy.yml'
                 }
