@@ -12,7 +12,7 @@ pipeline {
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
         }
-        stage('Deploy to VM (via Ansible)') {
+        stage('debug Deploy to VM (via Ansible)') {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
                 unstash 'app-artifact'
