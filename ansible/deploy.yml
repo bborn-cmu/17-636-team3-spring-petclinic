@@ -11,13 +11,13 @@
 
     - name: Copy Petclinic JAR file
       copy:
-        src: files/spring-petclinic-*.jar
+        src: target/spring-petclinic-*.jar
         dest: /opt/spring-petclinic.jar
 
     - name: Stop existing Spring Petclinic instance (if any)
       shell: pkill -f 'java -jar /opt/spring-petclinic.jar'
       ignore_errors: yes
-      
+
     - name: Run Spring PetClinic
       shell: nohup java -jar /opt/spring-petclinic.jar > /opt/petclinic.log 2>&1 &
 
