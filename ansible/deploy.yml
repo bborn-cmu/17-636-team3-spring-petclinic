@@ -11,7 +11,7 @@
 
     - name: Copy Petclinic JAR file
       copy:
-        src: spring-petclinic-*.jar
+        src: "{{ jar_file }}"
         dest: /opt/spring-petclinic.jar
 
     - name: Stop existing Spring Petclinic instance (if any)
