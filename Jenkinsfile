@@ -21,7 +21,7 @@ pipeline {
                 dir('ansible') {
                     sh 'pwd && ls -al'
                     sh 'ls -al files'
-                    sh 'ansible-playbook -i inventory.ini deploy.yml'
+                    sh 'ansible-playbook -vvv -i inventory.ini deploy.yml'
                 }
                 
             }
