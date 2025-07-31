@@ -21,7 +21,7 @@ pipeline {
                 dir('ansible') {
                     sh 'pwd && ls -al'
                     sh 'ls -al files'
-                    sh 'ansible-playbook -vvv -i inventory.ini deploy.yml --extra-vars "jar_file=spring-petclinic-3.5.0-SNAPSHOT.jar"
+                    sh 'ansible-playbook -vvv -i inventory.ini deploy.yml --extra-vars "jar_file=spring-petclinic-3.5.0-SNAPSHOT.jar"'
                 }
                 
             }
