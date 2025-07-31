@@ -11,7 +11,7 @@
 
     - name: Copy Petclinic JAR file
       copy:
-        src: ../target/spring-petclinic-*.jar
+        src: ../../target/spring-petclinic-*.jar
         dest: /opt/spring-petclinic.jar
 
     - name: Stop existing Spring Petclinic instance (if any)
