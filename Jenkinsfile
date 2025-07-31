@@ -12,6 +12,14 @@ pipeline {
                 stash includes: 'target/*.jar', name: 'app-artifact'
             }
         }
+        stage('Deploy to VM (via Ansible)') {
+            steps {
+                echo "Deploying Spring Petclinic to VM..."
+                unstash 'app-artifact'
+                sh 'ls -al'
+                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+            }
+        }
         stage('Build-Image') {
             // The build server's agent has maven on it
             steps {
@@ -60,6 +68,7 @@ pipeline {
             steps {
                 echo "Deploying Spring Petclinic to VM..."
                 unstash 'app-artifact'
+                sh 'ls -al'
                 sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
             }
         }
